@@ -3,26 +3,36 @@ import { connect } from 'react-redux';
 import { addCity } from './../actions/cityActions';
 import { v4 as uuidv4 } from 'uuid';
 
- class AddBar extends Component {
-    state = {
+class AddBar extends Component {
+  state = {
+      id: "",
       name: ""
-    };
+  };
 
-    handleChange = (e) => {
-      this.setState({[e.target.name]: e.target.value})
-    };
+  componentDidMount = () => {
+    const storedCities = JSON.parse(localStorage.getItem('cities'));
+    if(storedCities){
+      storedCities.forEach(oneCity => {
+      this.props.addCity(oneCity)
+    })
+   }
+  }
 
-    handleFormSubmit = (e) => {
-      e.preventDefault();
-      const newId = uuidv4();
-      const newCity = {
-        name: this.state.name,
-        id: newId
-      }
-      this.props.addCity(newCity)
-      this.setState({name: ""})
-    };
-  
+  handleChange = (e) => {
+    this.setState({[e.target.name]: e.target.value})
+  };
+
+  handleFormSubmit = (e) => {
+    e.preventDefault();
+    const newId = uuidv4();
+    const newCity = {
+      id: newId,
+      name: this.state.name
+    }
+    this.props.addCity(newCity)
+    this.setState({id: "", name: ""})
+  };
+
   render() {
     return (
       <div>

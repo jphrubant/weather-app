@@ -1,17 +1,16 @@
 const initState = {
-  cities: [
-    {id: 1, name: 'Paris'},
-    {id: 2, name: 'Prague'},
-    {id: 3, name: 'London'},
-    {id: 4, name: 'Barcelona'}
-  ]
+  cities: []
+}
+
+const setLocalStorage = (item) => {
+    localStorage.setItem('cities', JSON.stringify(item))
 }
 
 const rootReducer = (state = initState, action) => {
   switch (action.type) {
     case 'ADD_CITY':
       let cities = [...state.cities, action.newCity]
-      console.log(cities)
+      setLocalStorage(cities)
         return{
         ...state, cities
         }  

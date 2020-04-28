@@ -11,14 +11,19 @@ class OneCity extends Component {
     return(
       <div>
         <h1>OneCity component</h1>
-        {this.props.cities.map(oneCity => {
-          return(
-          <div key={oneCity.id}>
-            <div>City: {oneCity.name}</div>
-            <button onClick={() => {this.handleDelete(oneCity.id)}}>DELETE</button>
-          </div>
+        {this.props.cities.length === 0 ? (
+          <div>You have no saved cities.</div>
+        ) : ( this.props.cities.map(oneCity => {
+         return(
+            <div key={oneCity.id}>
+              <div>City: {oneCity.name}</div>
+              <button onClick={() => {this.handleDelete(oneCity.id)}}>DELETE</button>
+            </div>
           )
-        })}  
+          }
+
+        )
+        )} 
       </div>
     )
   };
@@ -37,3 +42,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(OneCity);
+
