@@ -5,8 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 class AddBar extends Component {
   state = {
-      id: "",
-      name: ""
+    id: "",
+    name: ""
   };
 
   componentDidMount = () => {
@@ -14,9 +14,9 @@ class AddBar extends Component {
     if(storedCities){
       storedCities.forEach(oneCity => {
       this.props.addCity(oneCity)
-    })
-   }
-  }
+      });
+    };
+  };
 
   handleChange = (e) => {
     this.setState({[e.target.name]: e.target.value})
@@ -27,10 +27,10 @@ class AddBar extends Component {
     const newId = uuidv4();
     const newCity = {
       id: newId,
-      name: this.state.name
-    }
-    this.props.addCity(newCity)
-    this.setState({id: "", name: ""})
+      name: this.state.name.toLowerCase()
+    };
+    this.props.addCity(newCity);
+    this.setState({id: "", name: ""});
   };
 
   render() {
@@ -54,8 +54,8 @@ class AddBar extends Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     addCity: (newCity) => { dispatch(addCity(newCity)) }
-  }
-}
+  };
+};
 
-export default connect(null, mapDispatchToProps)(AddBar)
+export default connect(null, mapDispatchToProps)(AddBar);
 

@@ -10,22 +10,20 @@ class OneCity extends Component {
   render() {
     return(
       <div>
-        <h1>OneCity component</h1>
         {this.props.cities.length === 0 ? (
           <div>You have no saved cities.</div>
         ) : ( this.props.cities.map(oneCity => {
+          let city = oneCity.name
+          let cappedCity = city.charAt(0).toUpperCase() + city.slice(1)
          return(
             <div key={oneCity.id}>
-              <div>City: {oneCity.name}</div>
+              <div>City: {cappedCity}</div>
               <button onClick={() => {this.handleDelete(oneCity.id)}}>DELETE</button>
-            </div>
-          )
-          }
-
-        )
-        )} 
+            </div>);
+       })
+      )}
       </div>
-    )
+    );
   };
 };
 
