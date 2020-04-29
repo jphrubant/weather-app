@@ -17,7 +17,11 @@ class OneCity extends Component {
           let cappedCity = city.charAt(0).toUpperCase() + city.slice(1)
          return(
             <div key={oneCity.id}>
-              <div>City: {cappedCity}</div>
+              <div>{cappedCity}, {oneCity.country}</div>
+              <div>Temperature: {oneCity.temp}</div>
+              <div>Humumidity: {oneCity.hum}</div>
+              <div>Pressure: {oneCity.press}</div>
+              <div>Feels like: {oneCity.feel}</div>
               <button onClick={() => {this.handleDelete(oneCity.id)}}>DELETE</button>
             </div>);
        })

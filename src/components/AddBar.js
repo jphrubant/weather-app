@@ -6,7 +6,12 @@ import { v4 as uuidv4 } from 'uuid';
 class AddBar extends Component {
   state = {
     id: "",
-    name: ""
+    name: "",
+    country: "",
+    temp: "",
+    hum: "",
+    press: "",
+    feel: ""
   };
 
   componentDidMount = () => {
