@@ -13,16 +13,17 @@ class OneCity extends Component {
         {this.props.cities.length === 0 ? (
           <div>You have no saved cities.</div>
         ) : ( this.props.cities.map(oneCity => {
-          let city = oneCity.name
-          let cappedCity = city.charAt(0).toUpperCase() + city.slice(1)
+          {/* let city = oneCity.name
+          let cappedCity = city.charAt(0).toUpperCase() + city.slice(1) */}
          return(
             <div key={oneCity.id}>
-              <div>{cappedCity}, {oneCity.country}</div>
-              <div>Temperature: {oneCity.temp}</div>
-              <div>Humumidity: {oneCity.hum}</div>
-              <div>Pressure: {oneCity.press}</div>
-              <div>Feels like: {oneCity.feel}</div>
+              {/* <p>{cappedCity}, {oneCity.country}</p> */}
+              <p>Temperature: {oneCity.temp}</p>
+              <p>Humumidity: {oneCity.hum}</p>
+              <p>Pressure: {oneCity.press}</p>
+              <p>Feels like: {oneCity.feel}</p>
               <button onClick={() => {this.handleDelete(oneCity.id)}}>DELETE</button>
+              <hr></hr>
             </div>);
        })
       )}

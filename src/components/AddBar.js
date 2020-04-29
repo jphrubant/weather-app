@@ -6,22 +6,17 @@ import { v4 as uuidv4 } from 'uuid';
 class AddBar extends Component {
   state = {
     id: "",
-    name: "",
-    country: "",
-    temp: "",
-    hum: "",
-    press: "",
-    feel: ""
+    name: ""
   };
 
-  componentDidMount = () => {
-    const storedCities = JSON.parse(localStorage.getItem('cities'));
-    if(storedCities){
-      storedCities.forEach(oneCity => {
-      this.props.addCity(oneCity)
-      });
-    };
-  };
+  // componentDidMount = () => {
+  //   const storedCities = JSON.parse(localStorage.getItem('cities'));
+  //   if(storedCities){
+  //     storedCities.forEach(oneCity => {
+  //     this.props.addCity(oneCity)
+  //     });
+  //   };
+  // };
 
   handleChange = (e) => {
     this.setState({[e.target.name]: e.target.value})

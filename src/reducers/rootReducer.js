@@ -3,15 +3,15 @@ const initState = {
 }
 
 const getWeather = cityArray => {
-  cityArray.forEach(oneCity => {    
-  fetch(`http://api.openweathermap.org/data/2.5/weather?q=${oneCity.name}&appid=3f4b891079045d352173506efa88c064`)
+  // cityArray.forEach(oneCity => {    
+  fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityArray}&appid=3f4b891079045d352173506efa88c064`)
     .then(response => response.json())
-    .then(data => getCityDetails(data, oneCity))
+    .then(data => console.log(data)) //, oneCity
     .catch(err => console.log('summat went wrong'))
-  });
+  // });
 };
 
-const getCityDetails = (fetchedData, city) => {
+const getCityDetails = async (fetchedData, city) => {
   city.country = fetchedData.sys.country;
   city.temp = fetchedData.main.temp;
   city.hum = fetchedData.main.humidity;
@@ -27,14 +27,20 @@ const removeItemLocalStorage = (item) => {
     localStorage.removeItem(item) 
 }
 
-
 const rootReducer = (state = initState, action) => {
   switch (action.type) {
     case 'ADD_CITY':
-      let cities = [...state.cities, action.newCity]
-      console.log('cities', cities)
-      getWeather(cities)
-      setItemLocalStorage(cities)
+      // let cities = [...state.cities, action.newCity]
+      // getWeather(cities)
+      // setItemLocalStorage(cities)
+      // console.log('cities', cities)
+
+      let newCity = action.newCity.name
+      console.log('newcity', newCity)
+      getWeather(newCity)
+      setItemLocalStorage(newCity)
+      let cities = [...state.cities, newCity]
+
       return{
         ...state, cities
       }
