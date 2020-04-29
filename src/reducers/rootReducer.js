@@ -4,7 +4,7 @@ const initState = {
 
 const getWeather = cityArray => {
   // cityArray.forEach(oneCity => {    
-  fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityArray}&appid=3f4b891079045d352173506efa88c064`)
+  fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cityArray}&appid=386f48e9b4f556fe6dbba90687169881`)
     .then(response => response.json())
     .then(data => console.log(data)) //, oneCity
     .catch(err => console.log('summat went wrong'))

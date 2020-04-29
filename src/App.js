@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css';
 
-import OneCity from './components/OneCity'; 
 import AddBar from './components/AddBar';
+import OneCity from './components/OneCity'; 
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <h1>Weather App</h1>
       <AddBar />
       <OneCity />
+      <Footer />
     </div>
   );
 }
