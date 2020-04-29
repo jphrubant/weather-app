@@ -2,21 +2,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addCity } from './../actions/cityActions';
 import { v4 as uuidv4 } from 'uuid';
+import { getWeather } from './../apiService'
 
 class AddBar extends Component {
   state = {
     id: "",
-    name: ""
+    name: "",
   };
 
-  // componentDidMount = () => {
-  //   const storedCities = JSON.parse(localStorage.getItem('cities'));
-  //   if(storedCities){
-  //     storedCities.forEach(oneCity => {
-  //     this.props.addCity(oneCity)
-  //     });
-  //   };
-  // };
+  componentDidMount = () => {
+    const storedCities = JSON.parse(localStorage.getItem('cities'));
+    if(storedCities) {
+      storedCities.forEach(oneCity => {
+      this.props.addCity(oneCity)
+      });
+    };
+  };
 
   handleChange = (e) => {
     this.setState({[e.target.name]: e.target.value})
@@ -53,7 +54,17 @@ class AddBar extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addCity: (newCity) => { dispatch(addCity(newCity)) }
+    addCity: async (city) => {
+      let weatherData = await getWeather(city.name);
+      dispatch(addCity({
+      country: weatherData.sys.country, 
+      temp: weatherData.main.temp,
+      hum: weatherData.main.hum,
+      press: weatherData.main.pressure,
+      feel: weatherData.main.feels_like,
+      ...city
+      }))
+    }
   };
 };
 

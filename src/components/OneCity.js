@@ -13,11 +13,11 @@ class OneCity extends Component {
         {this.props.cities.length === 0 ? (
           <div>You have no saved cities.</div>
         ) : ( this.props.cities.map(oneCity => {
-          {/* let city = oneCity.name
-          let cappedCity = city.charAt(0).toUpperCase() + city.slice(1) */}
+          let city = oneCity.name
+          let cappedCity = city.charAt(0).toUpperCase() + city.slice(1)
          return(
             <div key={oneCity.id}>
-              {/* <p>{cappedCity}, {oneCity.country}</p> */}
+              <p>{cappedCity}, {oneCity.country}</p>
               <p>Temperature: {oneCity.temp}</p>
               <p>Humumidity: {oneCity.hum}</p>
               <p>Pressure: {oneCity.press}</p>
@@ -25,7 +25,7 @@ class OneCity extends Component {
               <button onClick={() => {this.handleDelete(oneCity.id)}}>DELETE</button>
               <hr></hr>
             </div>);
-       })
+        })
       )}
       </div>
     );
