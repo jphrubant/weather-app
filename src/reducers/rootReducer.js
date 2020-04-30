@@ -1,16 +1,23 @@
 const initState = {
   cities: [],
-  loadingCities: false
+  // loadingCities: false
 }
 
 const rootReducer = (state = initState, action) => {
   switch (action.type) {
     case 'ADD_CITY':
-     
       let cities = [...state.cities, action.newCity]
       localStorage.setItem('cities', JSON.stringify(cities)) 
       return{
-        ...state, cities, loadingCities: false
+        ...state, cities
+      }
+
+    case 'ADD_CURRENT_CITY':
+      let allCities = [...state.cities, action.newCity]
+      console.log('ALLCITIES', allCities)
+      localStorage.setItem('cities', JSON.stringify(allCities)) 
+      return{
+        ...state, cities: allCities
       }
 
     case 'DELETE_CITY':
@@ -27,8 +34,7 @@ const rootReducer = (state = initState, action) => {
     //   return{
     //     ...state, loadingCities: true
     //   };
-    
-
+  
     default:  
       return state;
   };

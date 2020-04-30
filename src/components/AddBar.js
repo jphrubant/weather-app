@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addCity } from './../actions/cityActions'; //, loadingCities
+import { addCity, addCurrentCity } from './../actions/cityActions'; //, loadingCities
 import { v4 as uuidv4 } from 'uuid';
-import { getWeather } from './../apiService'
+import { getWeatherByName, getWeatherByCoordinates} from './../apiService'
 
 class AddBar extends Component {
   state = {
@@ -11,13 +11,34 @@ class AddBar extends Component {
   };
 
   componentDidMount = () => {
+    this.getLocation()
     const storedCities = JSON.parse(localStorage.getItem('cities'));
     if(storedCities) {
       storedCities.forEach(oneCity => {
-      this.props.addCity(oneCity)
+      addCity(oneCity) //this.props
       });
     };
   };
+
+  getLocation = () => {
+    navigator.geolocation.getCurrentPosition(showLocation)
+    let currentCity;
+    async function showLocation(position) {
+      let data = await getWeatherByCoordinates(position.coords.latitude, position.coords.longitude)
+      console.log('data', data)
+      currentCity = {
+        name: data.name,
+        country: data.sys.country, 
+        temp: data.main.temp,
+        hum: data.main.hum,
+        press: data.main.pressure,
+        feel: data.main.feels_like,
+      }
+      console.log('currentCity', currentCity)
+      addCurrentCity(currentCity)
+    }
+  
+  }
 
   handleChange = (e) => {
     this.setState({[e.target.name]: e.target.value})
@@ -61,7 +82,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addCity: async (city) => {
-      let weatherData = await getWeather(city.name);
+      let weatherData = await getWeatherByName(city.name);
       dispatch(addCity({
       country: weatherData.sys.country, 
       temp: weatherData.main.temp,
@@ -70,7 +91,8 @@ const mapDispatchToProps = (dispatch) => {
       feel: weatherData.main.feels_like,
       ...city
       }))
-    }
+    },
+    addCurrentCity: (currentCity) => { dispatch({type: 'ADD_CURRENT_CITY', currentCity}) }
   };
 };
 
