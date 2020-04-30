@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addCity, addCurrentCity } from './../actions/cityActions'; //, loadingCities
+import { addCity, addCurrentCity } from './../actions/cityActions';
 import { v4 as uuidv4 } from 'uuid';
 import { getWeatherByName, getWeatherByCoordinates} from './../apiService'
 
@@ -11,30 +11,18 @@ class AddBar extends Component {
   };
 
   componentDidMount = () => {
-    this.getLocation()
+    navigator.geolocation.getCurrentPosition(this.showLocation)
+    
     const storedCities = JSON.parse(localStorage.getItem('cities'));
     if(storedCities) {
       storedCities.forEach(oneCity => {
-      this.props.addCity(oneCity) //this.props
+      this.props.addCity(oneCity)
       });
     };
   };
 
-  getLocation = () => {
-    navigator.geolocation.getCurrentPosition(showLocation)
-    // let currentCity;
-    async function showLocation(position) {
-      let data = await getWeatherByCoordinates(position.coords.latitude, position.coords.longitude)
-      let currentCity = {
-        name: data.name,
-        country: data.sys.country, 
-        temp: data.main.temp,
-        hum: data.main.hum,
-        press: data.main.pressure,
-        feel: data.main.feels_like,
-      }
-      console.log('currentCity', currentCity)
-    }      
+  showLocation = (position) => {
+    this.props.addCurrentCity(position.coords.latitude, position.coords.longitude)
   }
 
   handleChange = (e) => {
@@ -70,28 +58,39 @@ class AddBar extends Component {
   };
 };
 
-const mapStateToProps = (state) => {
-  return {
-    cities: state.cities,
-  };
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     addCity: async (city) => {
-      let weatherData = await getWeatherByName(city.name);
+      let data = await getWeatherByName(city.name);
       dispatch(addCity({
-      country: weatherData.sys.country, 
-      temp: weatherData.main.temp,
-      hum: weatherData.main.hum,
-      press: weatherData.main.pressure,
-      feel: weatherData.main.feels_like,
+      country: data.sys.country, 
+      temp: data.main.temp,
+      hum: data.main.hum,
+      press: data.main.pressure,
+      feel: data.main.feels_like,
       ...city
-      }))
+      }));
     },
-    addCurrentCity: (currentCity) => { dispatch(addCurrentCity({ currentCity }))}
+    addCurrentCity: async (lat, lon) => { 
+      let data = await getWeatherByCoordinates(lat, lon);
+      dispatch(addCurrentCity({ 
+        name: data.name,
+        country: data.sys.country, 
+        temp: data.main.temp,
+        hum: data.main.hum,
+        press: data.main.pressure,
+        feel: data.main.feels_like,
+      }));
+    }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddBar);
+export default connect(null, mapDispatchToProps)(AddBar);
+
+
+// const mapStateToProps = (state) => {
+//   return {
+//     cities: state.cities,
+//   };
+// };
 
