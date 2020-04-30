@@ -22,7 +22,7 @@ class OneCity extends Component {
             <div key={oneCity.id}>
               <p>{cappedCity}, {oneCity.country}</p>
               <p>Temperature: {oneCity.temp}</p>
-              <p>Humumidity: {oneCity.hum}</p>
+              <p>Humidity: {oneCity.hum}</p>
               <p>Pressure: {oneCity.press}</p>
               <p>Feels like: {oneCity.feel}</p>
               <button onClick={() => {this.handleDelete(oneCity.id)}}>DELETE</button>

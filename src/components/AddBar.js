@@ -12,7 +12,7 @@ class AddBar extends Component {
 
   componentDidMount = () => {
     navigator.geolocation.getCurrentPosition(this.showLocation)
-    
+
     const storedCities = JSON.parse(localStorage.getItem('cities'));
     if(storedCities) {
       storedCities.forEach(oneCity => {
@@ -62,10 +62,11 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addCity: async (city) => {
       let data = await getWeatherByName(city.name);
+      console.log(data)
       dispatch(addCity({
       country: data.sys.country, 
       temp: data.main.temp,
-      hum: data.main.hum,
+      hum: data.main.humidity,
       press: data.main.pressure,
       feel: data.main.feels_like,
       ...city
@@ -77,7 +78,7 @@ const mapDispatchToProps = (dispatch) => {
         name: data.name,
         country: data.sys.country, 
         temp: data.main.temp,
-        hum: data.main.hum,
+        hum: data.main.humidity,
         press: data.main.pressure,
         feel: data.main.feels_like,
       }));
