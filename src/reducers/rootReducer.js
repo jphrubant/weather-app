@@ -13,7 +13,7 @@ const rootReducer = (state = initState, action) => {
       }
 
     case 'ADD_CURRENT_CITY':
-      let allCities = [...state.cities, action.newCity]
+      let allCities = [...state.cities, action.currentCity]
       console.log('ALLCITIES', allCities)
       localStorage.setItem('cities', JSON.stringify(allCities)) 
       return{

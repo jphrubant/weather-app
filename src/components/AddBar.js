@@ -7,7 +7,7 @@ import { getWeatherByName, getWeatherByCoordinates} from './../apiService'
 class AddBar extends Component {
   state = {
     id: "",
-    name: "",
+    name: ""
   };
 
   componentDidMount = () => {
@@ -15,18 +15,17 @@ class AddBar extends Component {
     const storedCities = JSON.parse(localStorage.getItem('cities'));
     if(storedCities) {
       storedCities.forEach(oneCity => {
-      addCity(oneCity) //this.props
+      this.props.addCity(oneCity) //this.props
       });
     };
   };
 
   getLocation = () => {
     navigator.geolocation.getCurrentPosition(showLocation)
-    let currentCity;
+    // let currentCity;
     async function showLocation(position) {
       let data = await getWeatherByCoordinates(position.coords.latitude, position.coords.longitude)
-      console.log('data', data)
-      currentCity = {
+      let currentCity = {
         name: data.name,
         country: data.sys.country, 
         temp: data.main.temp,
@@ -35,9 +34,7 @@ class AddBar extends Component {
         feel: data.main.feels_like,
       }
       console.log('currentCity', currentCity)
-      addCurrentCity(currentCity)
-    }
-  
+    }      
   }
 
   handleChange = (e) => {
@@ -92,7 +89,7 @@ const mapDispatchToProps = (dispatch) => {
       ...city
       }))
     },
-    addCurrentCity: (currentCity) => { dispatch({type: 'ADD_CURRENT_CITY', currentCity}) }
+    addCurrentCity: (currentCity) => { dispatch(addCurrentCity({ currentCity }))}
   };
 };
 
