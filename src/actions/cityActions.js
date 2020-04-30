@@ -9,3 +9,10 @@ export const addCity = (newCity) => {
    type: 'ADD_CITY', newCity
   };
 };
+
+// export const loadingCities = () => {
+//   return {
+//    type: 'LOADING_CITIES'
+//   };
+// };
+

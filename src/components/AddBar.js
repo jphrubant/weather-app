@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addCity } from './../actions/cityActions';
+import { addCity } from './../actions/cityActions'; //, loadingCities
 import { v4 as uuidv4 } from 'uuid';
 import { getWeather } from './../apiService'
 
@@ -52,6 +52,12 @@ class AddBar extends Component {
   };
 };
 
+const mapStateToProps = (state) => {
+  return {
+    cities: state.cities,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
     addCity: async (city) => {
@@ -68,5 +74,5 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(AddBar);
+export default connect(mapStateToProps, mapDispatchToProps)(AddBar);
 
