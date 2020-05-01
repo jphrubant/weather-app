@@ -15,9 +15,3 @@ export const loadingCities = () => {
    type: 'LOADING_CITIES'
   };
 };
-
-export const inputError = () => {
-  return {
-   type: 'INPUT_ERROR'
-  };
-};

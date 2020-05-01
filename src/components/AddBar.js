@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addCity, loadingCities, inputError } from './../actions/cityActions';
+import { addCity, loadingCities } from './../actions/cityActions';
 import { getWeatherByName, getWeatherByCoordinates} from './../apiService'
 
 class AddBar extends Component {
   state = {
-    name: "",
-    cityAlreadyShown: false,
-    stateError: false,
+    name: ""
   };
 
   componentDidMount = () => {
@@ -51,9 +49,9 @@ class AddBar extends Component {
           />
           <button type="submit">Add City</button>
 
-          {this.state.cityAlreadyShown ? (
+          {this.props.cityShown ? (
             <div>
-              <h1>Error, this city is already shown</h1>
+              Error, this city is already shown
             </div>
           ) : (null)}
 
@@ -65,8 +63,7 @@ class AddBar extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    cities: state.cities,
-    error: state.error
+    cityShown: state.cityShown
   };
 };
 
@@ -92,6 +89,7 @@ const mapDispatchToProps = (dispatch) => {
     addCurrentCity: async (lat, lon) => { 
       let data = await getWeatherByCoordinates(lat, lon);
       dispatch(addCity({ 
+        geolocalised: true,
         id: data.sys.id,
         name: data.name,
         country: data.sys.country, 
@@ -103,7 +101,6 @@ const mapDispatchToProps = (dispatch) => {
       }));
     },
     loadingCities: () => {dispatch(loadingCities())},
-    inputError: () => {dispatch(inputError())},
   };
 };
 

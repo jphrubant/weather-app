@@ -10,7 +10,7 @@ class OneCity extends Component {
   render() {
     return(
       <div>
-        {this.props.loading ? (<h1>LOADING...</h1>) : (null)}
+        {this.props.loading ? (<div>LOADING...</div>) : (null)}
         {this.props.cities.length === 0 ? (
           <div>You have no saved cities.</div>
         ) : ( this.props.cities.map(oneCity => {
