@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addCity, addCurrentCity, loadingCities } from './../actions/cityActions';
-import { v4 as uuidv4 } from 'uuid';
+import { addCity, loadingCities } from './../actions/cityActions';
 import { getWeatherByName, getWeatherByCoordinates} from './../apiService'
 
 class AddBar extends Component {
   state = {
-    id: "",
-    name: ""
+    name: "",
+    inputError: false
   };
 
   componentDidMount = () => {
@@ -31,13 +30,11 @@ class AddBar extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    const newId = uuidv4();
     const newCity = {
-      id: newId,
-      name: this.state.name.toLowerCase()
+      name: this.state.name
     };
     this.props.addCity(newCity);
-    this.setState({id: "", name: ""});
+    this.setState({name: ""});
   };
 
   render() {
@@ -52,9 +49,20 @@ class AddBar extends Component {
             onChange={this.handleChange}
           />
           <button type="submit">Add City</button>
+          {this.state.inputError ? (
+            <div>
+              Error, please enter a valid city name
+            </div>
+          ) : (null)}
         </form>
       </div>
     );
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    cities: state.cities
   };
 };
 
@@ -62,8 +70,13 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addCity: async (city) => {
       let data = await getWeatherByName(city.name);
-      console.log(data)
+
+      // if(data.cod === '404'){
+      //   this.setState({inputError: true})
+      // } else {
+
       dispatch(addCity({
+      id: data.sys.id,
       country: data.sys.country, 
       temp: data.main.temp,
       hum: data.main.humidity,
@@ -71,30 +84,26 @@ const mapDispatchToProps = (dispatch) => {
       feel: data.main.feels_like,
       ...city
       }));
+
+     //}
+
     },
     addCurrentCity: async (lat, lon) => { 
       let data = await getWeatherByCoordinates(lat, lon);
-      const id = uuidv4();
-      dispatch(addCurrentCity({ 
-        id,
+      dispatch(addCity({ 
+        id: data.sys.id,
         name: data.name,
         country: data.sys.country, 
         temp: data.main.temp,
         hum: data.main.humidity,
         press: data.main.pressure,
         feel: data.main.feels_like,
+        ...data
       }));
     },
     loadingCities: () => {dispatch(loadingCities())}
   };
 };
 
-export default connect(null, mapDispatchToProps)(AddBar);
-
-
-// const mapStateToProps = (state) => {
-//   return {
-//     cities: state.cities,
-//   };
-// };
+export default connect(mapStateToProps, mapDispatchToProps)(AddBar);
 
