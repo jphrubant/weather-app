@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addCity, loadingCities } from './../actions/cityActions';
+import { addCity, loadingCities, inputError } from './../actions/cityActions';
 import { getWeatherByName, getWeatherByCoordinates} from './../apiService'
 
 class AddBar extends Component {
   state = {
     name: "",
-    inputError: false
+    cityAlreadyShown: false,
+    stateError: false,
   };
 
   componentDidMount = () => {
@@ -33,7 +34,7 @@ class AddBar extends Component {
     const newCity = {
       name: this.state.name
     };
-    this.props.addCity(newCity);
+    this.props.addCity(newCity)
     this.setState({name: ""});
   };
 
@@ -49,11 +50,13 @@ class AddBar extends Component {
             onChange={this.handleChange}
           />
           <button type="submit">Add City</button>
-          {this.state.inputError ? (
+
+          {this.state.cityAlreadyShown ? (
             <div>
-              Error, please enter a valid city name
+              <h1>Error, this city is already shown</h1>
             </div>
           ) : (null)}
+
         </form>
       </div>
     );
@@ -62,7 +65,8 @@ class AddBar extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    cities: state.cities
+    cities: state.cities,
+    error: state.error
   };
 };
 
@@ -70,22 +74,19 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addCity: async (city) => {
       let data = await getWeatherByName(city.name);
-
-      // if(data.cod === '404'){
-      //   this.setState({inputError: true})
-      // } else {
-
-      dispatch(addCity({
-      id: data.sys.id,
-      country: data.sys.country, 
-      temp: data.main.temp,
-      hum: data.main.humidity,
-      press: data.main.pressure,
-      feel: data.main.feels_like,
-      ...city
-      }));
-
-     //}
+      if(data.cod === "404" || data.cod === "400" ){
+        console.log("input error")
+      } else {
+        dispatch(addCity({
+        id: data.sys.id,
+        country: data.sys.country, 
+        temp: data.main.temp,
+        hum: data.main.humidity,
+        press: data.main.pressure,
+        feel: data.main.feels_like,
+        ...city
+        }));
+      }
 
     },
     addCurrentCity: async (lat, lon) => { 
@@ -101,7 +102,8 @@ const mapDispatchToProps = (dispatch) => {
         ...data
       }));
     },
-    loadingCities: () => {dispatch(loadingCities())}
+    loadingCities: () => {dispatch(loadingCities())},
+    inputError: () => {dispatch(inputError())},
   };
 };
 
