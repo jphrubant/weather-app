@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addCity, addCurrentCity } from './../actions/cityActions';
+import { addCity, addCurrentCity, loadingCities } from './../actions/cityActions';
 import { v4 as uuidv4 } from 'uuid';
 import { getWeatherByName, getWeatherByCoordinates} from './../apiService'
 
@@ -11,8 +11,8 @@ class AddBar extends Component {
   };
 
   componentDidMount = () => {
+    this.props.loadingCities()
     navigator.geolocation.getCurrentPosition(this.showLocation)
-
     const storedCities = JSON.parse(localStorage.getItem('cities'));
     if(storedCities) {
       storedCities.forEach(oneCity => {
@@ -74,7 +74,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     addCurrentCity: async (lat, lon) => { 
       let data = await getWeatherByCoordinates(lat, lon);
+      const id = uuidv4();
       dispatch(addCurrentCity({ 
+        id,
         name: data.name,
         country: data.sys.country, 
         temp: data.main.temp,
@@ -82,7 +84,8 @@ const mapDispatchToProps = (dispatch) => {
         press: data.main.pressure,
         feel: data.main.feels_like,
       }));
-    }
+    },
+    loadingCities: () => {dispatch(loadingCities())}
   };
 };
 

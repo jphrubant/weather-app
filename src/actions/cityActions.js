@@ -17,9 +17,9 @@ export const deleteCity = (id) => {
   };
 };
 
-// export const loadingCities = () => {
-//   return {
-//    type: 'LOADING_CITIES'
-//   };
-// };
+export const loadingCities = () => {
+  return {
+   type: 'LOADING_CITIES'
+  };
+};
 

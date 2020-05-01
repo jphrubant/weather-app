@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { deleteCity } from './../actions/cityActions';
+import { deleteCity, loadingCities } from './../actions/cityActions';
 
 class OneCity extends Component {
   handleDelete = (id) => {
@@ -10,8 +10,8 @@ class OneCity extends Component {
   render() {
     return(
       <div>
-        {/* {console.log('this.props.loadingCities', this.props.loadingCities)}
-        {this.props.loadingCities ? (<h1>LOADING...</h1>) : (null)} */}
+        {console.log('this.props.loadingCities', this.props.loading)}
+        {this.props.loading ? (<h1>LOADING...</h1>) : (null)}
 
         {this.props.cities.length === 0 ? (
           <div>You have no saved cities.</div>
@@ -38,13 +38,14 @@ class OneCity extends Component {
 const mapStateToProps = (state) => {
   return {
     cities: state.cities,
-    // loadingCities: state.loadingCities
+    loading: state.loading
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteCity: (id) => { dispatch(deleteCity(id)) }
+    deleteCity: (id) => { dispatch(deleteCity(id)) },
+    loadingCities: () => {dispatch(loadingCities())}
   };
 };
 
