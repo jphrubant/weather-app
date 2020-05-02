@@ -38,24 +38,30 @@ class AddBar extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleFormSubmit}>
-          <label>City:</label>
-          <input
-            type="text"
-            name="name"
-            value={this.state.name}
-            onChange={this.handleChange}
-          />
-          <button type="submit">Add City</button>
+      <div className="navbar">
+          <div className="logo">
+            <h1>Weather App</h1>
+          </div>
 
           {this.props.cityShown && this.props.geolocalised === true ? (
-            <div>
-              Error, this city is already shown
-            </div>
-          ) : (null)}
+              <div className="city-shown">
+                City<br></br> already<br></br> displayed
+              </div>
+            ) : (null)}
 
-        </form>
+          <div className="input-form">
+            <form onSubmit={this.handleFormSubmit}>
+              <input
+                placeholder="Enter city name"
+                type="text"
+                name="name"
+                value={this.state.name}
+                onChange={this.handleChange}
+              />
+            </form>
+            <button type="submit">Add</button>
+
+          </div>
       </div>
     );
   };

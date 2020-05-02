@@ -8,7 +8,6 @@ import Footer from './components/Footer'
 function App() {
   return (
     <div className="App">
-      <h1>Weather App</h1>
       <AddBar />
       <OneCity />
       <Footer />

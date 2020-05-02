@@ -9,22 +9,22 @@ class OneCity extends Component {
 
   render() {
     return(
-      <div>
-        {this.props.loading ? (<div>LOADING...</div>) : (null)}
+      <div className="one-city-div">
+        {this.props.loading ? (<div className="message"><h1>LOADING...</h1></div>) : (null)}
         {this.props.cities.length === 0 ? (
-          <div>You have no saved cities.</div>
+        <div className="message">You have no saved cities</div>
         ) : ( this.props.cities.map(oneCity => {
           let city = oneCity.name
           let cappedCity = city.charAt(0).toUpperCase() + city.slice(1)
          return(
-            <div key={oneCity.id}>
-              <p>{cappedCity}, {oneCity.country}</p>
-              <p>Temperature: {oneCity.temp}</p>
-              <p>Humidity: {oneCity.hum}</p>
-              <p>Pressure: {oneCity.press}</p>
-              <p>Feels like: {oneCity.feel}</p>
-              <button onClick={() => {this.handleDelete(oneCity.id)}}>DELETE</button>
-              <hr></hr>
+            <div className="city-card" key={oneCity.id}>
+              <button className="remove-button" onClick={() => {this.handleDelete(oneCity.id)}}>X</button>
+              <p className="city-name">{cappedCity}, {oneCity.country}</p>
+              <p>Temperature: {Math.floor(oneCity.temp - 273.15)}°C</p>
+              <p>Humidity: {oneCity.hum}%</p>
+              <p>Pressure: {oneCity.press} hpa</p>
+              <p>Feels like: {Math.floor(oneCity.feel - 273.15)}°C</p>
+  
             </div>);
         })
       )}
