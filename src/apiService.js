@@ -3,7 +3,6 @@ export function getWeatherByName(cityName) {
       .then(response => response.json())
       .catch(err => {
         console.log(err, 'summat went wrong - name not found')
-        this.props.inputError()
       })
   };
 

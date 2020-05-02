@@ -1,3 +1,9 @@
+export const addCurrentCity = (newCity) => {
+  return {
+   type: 'ADD_CURRENT_CITY', newCity
+  };
+};
+
 export const addCity = (newCity) => {
   return {
    type: 'ADD_CITY', newCity

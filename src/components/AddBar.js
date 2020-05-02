@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addCity, loadingCities } from './../actions/cityActions';
+import { addCurrentCity, addCity, loadingCities } from './../actions/cityActions';
 import { getWeatherByName, getWeatherByCoordinates} from './../apiService'
 
 class AddBar extends Component {
@@ -49,7 +49,7 @@ class AddBar extends Component {
           />
           <button type="submit">Add City</button>
 
-          {this.props.cityShown ? (
+          {this.props.cityShown && this.props.geolocalised === true ? (
             <div>
               Error, this city is already shown
             </div>
@@ -63,7 +63,8 @@ class AddBar extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    cityShown: state.cityShown
+    cityShown: state.cityShown,
+    geolocalised: state.geolocalised
   };
 };
 
@@ -88,8 +89,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     addCurrentCity: async (lat, lon) => { 
       let data = await getWeatherByCoordinates(lat, lon);
-      dispatch(addCity({ 
-        geolocalised: true,
+      dispatch(addCurrentCity({ 
         id: data.sys.id,
         name: data.name,
         country: data.sys.country, 
