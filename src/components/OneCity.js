@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import WeatherIcon from './WeatherIcon.js';
 import { connect } from 'react-redux';
 import { deleteCity, loadingCities } from './../actions/cityActions';
 
@@ -19,12 +20,16 @@ class OneCity extends Component {
          return(
             <div className="city-card" key={oneCity.id}>
               <button className="remove-button" onClick={() => {this.handleDelete(oneCity.id)}}>X</button>
-              <p className="city-name">{cappedCity}, {oneCity.country}</p>
-              <p>Temperature: {Math.floor(oneCity.temp - 273.15)}°C</p>
-              <p>Humidity: {oneCity.hum}%</p>
-              <p>Pressure: {oneCity.press} hpa</p>
-              <p>Feels like: {Math.floor(oneCity.feel - 273.15)}°C</p>
-  
+              <div>
+                <p className="city-name">{cappedCity}, {oneCity.country}</p>
+                <p>Temperature: {Math.floor(oneCity.temp - 273.15)}°C</p>
+                <p>Humidity: {oneCity.hum}%</p>
+                <p>Pressure: {oneCity.press} hpa</p>
+                <p>Feels like: {Math.ceil(oneCity.feel - 273.15)}°C</p>
+              </div>
+              <div>
+                <WeatherIcon iconId={oneCity.iconId} />
+              </div>
             </div>);
         })
       )}

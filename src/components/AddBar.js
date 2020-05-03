@@ -88,6 +88,7 @@ const mapDispatchToProps = (dispatch) => {
         hum: data.main.humidity,
         press: data.main.pressure,
         feel: data.main.feels_like,
+        iconId: parseInt(data.weather[0].icon),
         ...city
         }));
       }
@@ -103,6 +104,7 @@ const mapDispatchToProps = (dispatch) => {
         hum: data.main.humidity,
         press: data.main.pressure,
         feel: data.main.feels_like,
+        iconId: parseInt(data.weather[0].icon),
         ...data
       }));
     },
