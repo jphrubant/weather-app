@@ -106,9 +106,8 @@ input {
 }
 
 .city-shown {
-  font-size: 12px;
-  margin-right: -10px;
-  text-align: end;
+  font-size: 15px;
+  text-align: center;
 }
 
 /* ONE CITY */

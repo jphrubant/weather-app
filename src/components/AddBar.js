@@ -12,11 +12,7 @@ class AddBar extends Component {
     this.props.loadingCities()
     navigator.geolocation.getCurrentPosition(this.showLocation)
     const storedCities = JSON.parse(localStorage.getItem('cities'));
-    if(storedCities) {
-      storedCities.forEach(oneCity => {
-      this.props.addCity(oneCity)
-      });
-    };
+    storedCities.forEach(oneCity => this.props.addCity(oneCity));
   };
 
   showLocation = (position) => {
@@ -29,25 +25,17 @@ class AddBar extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    const newCity = {
-      name: this.state.name
-    };
-    this.props.addCity(newCity)
+    this.props.addCity({name: this.state.name})
     this.setState({name: ""});
   };
 
   render() {
     return (
       <div className="navbar">
+
           <div className="logo">
             <h1>Weather App</h1>
           </div>
-
-          {this.props.cityShown && this.props.geolocalised === true ? (
-              <div className="city-shown">
-                City<br></br> already<br></br> displayed
-              </div>
-            ) : (null)}
 
           <div className="input-form">
             <form onSubmit={this.handleFormSubmit}>
@@ -58,19 +46,12 @@ class AddBar extends Component {
                 value={this.state.name}
                 onChange={this.handleChange}
               />
+              <button type="submit">Add</button>
             </form>
-            <button type="submit">Add</button>
-
+            
           </div>
       </div>
     );
-  };
-};
-
-const mapStateToProps = (state) => {
-  return {
-    cityShown: state.cityShown,
-    geolocalised: state.geolocalised
   };
 };
 
@@ -83,16 +64,15 @@ const mapDispatchToProps = (dispatch) => {
       } else {
         dispatch(addCity({
         id: data.sys.id,
+        name: data.name,
         country: data.sys.country, 
         temp: data.main.temp,
         hum: data.main.humidity,
         press: data.main.pressure,
         feel: data.main.feels_like,
-        iconId: parseInt(data.weather[0].icon),
-        ...city
+        iconId: parseInt(data.weather[0].icon)
         }));
       }
-
     },
     addCurrentCity: async (lat, lon) => { 
       let data = await getWeatherByCoordinates(lat, lon);
@@ -104,13 +84,12 @@ const mapDispatchToProps = (dispatch) => {
         hum: data.main.humidity,
         press: data.main.pressure,
         feel: data.main.feels_like,
-        iconId: parseInt(data.weather[0].icon),
-        ...data
+        iconId: parseInt(data.weather[0].icon)
       }));
     },
     loadingCities: () => {dispatch(loadingCities())},
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddBar);
+export default connect(null, mapDispatchToProps)(AddBar);
 
