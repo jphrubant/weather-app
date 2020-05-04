@@ -12,7 +12,9 @@ class AddBar extends Component {
     this.props.loadingCities()
     navigator.geolocation.getCurrentPosition(this.showLocation)
     const storedCities = JSON.parse(localStorage.getItem('cities'));
-    storedCities.forEach(oneCity => this.props.addCity(oneCity));
+    if(storedCities){
+      storedCities.forEach(oneCity => this.props.addCity(oneCity));
+    }
   };
 
   showLocation = (position) => {
