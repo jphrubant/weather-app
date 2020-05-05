@@ -2,6 +2,8 @@
 
 This is a simple frontend app that was created to practice React & Redux, local storage and external API usage.
 
+[link to app]('https://react-redux-weather-app-jph.netlify.app/')
+
 ## User Stories:
 
 - As a user I want to know the weather in my local area.
